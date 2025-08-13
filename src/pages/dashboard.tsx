@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import DebugPanel from '@/Components/Debug/DebugPanel';
 import ProfileDropdown from '@/Components/Profile/ProfileDropdown';
 import { useAppStore } from '@/store/useAppStore';
+import Sidebar from '@/Components/Sidebar/Sidebar';
 
 // Import StreamPixel component with no SSR to avoid window is not defined errors
 const StreamPixel = dynamic(() => import('../Components/StreamPixel/StreamPixel'), {
@@ -64,9 +65,9 @@ const Dashboard: NextPage = () => {
       {/*</div>*/}
 
       {streamLoaded && (
-        <div className="fixed top-0 left-0 w-fit h-fit bg-black bg-opacity-20 flex justify-center items-center z-50">
-          <h1>CARGADO</h1>
-        </div>
+        <nav className='fixed z-50 bg-slate-300 opacity-90 py-40 h-full my-4'>
+          <Sidebar />
+        </nav>
       )}
       <StreamPixel />
     </>
