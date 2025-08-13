@@ -17,6 +17,7 @@ const Dashboard: NextPage = () => {
   const focusIframe = useAppStore((state) => state.focusIframe);
   const logout = useAppStore((state) => state.logout);
   const router = useRouter();
+  const streamLoaded = useAppStore((state) => state.streamLoaded);
 
   const handlePersonalizeAvatar = () => {
     console.log('Personalizar avatar');
@@ -32,6 +33,7 @@ const Dashboard: NextPage = () => {
     router.push('/login');
   };
 
+  console.log("En dashboard")
   return (
     <>
       <Head>
@@ -61,6 +63,11 @@ const Dashboard: NextPage = () => {
       {/*  <DebugPanel />*/}
       {/*</div>*/}
 
+      {streamLoaded && (
+        <div className="fixed top-0 left-0 w-fit h-fit bg-black bg-opacity-20 flex justify-center items-center z-50">
+          <h1>CARGADO</h1>
+        </div>
+      )}
       <StreamPixel />
     </>
   );

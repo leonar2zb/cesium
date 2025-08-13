@@ -9,6 +9,7 @@ type AppState = {
   errorAPI: string | null
   isHydrated: boolean
   role: string  // Nueva variable global para el rol
+  streamLoaded: boolean
 
   setErrorAPI: (error: string) => void
   login: (email: string, password: string) => Promise<void>
@@ -18,6 +19,7 @@ type AppState = {
   setHydrated: (state: boolean) => void
   setRole: (role: string) => void  // Nueva función para establecer el rol
   focusIframe: () => void  // Función para enfocar el iframe
+  setStreamLoaded: (state: boolean) => void
 }
 
 export const useAppStore = create<AppState>()(
@@ -28,11 +30,13 @@ export const useAppStore = create<AppState>()(
       errorAPI: null,
       isHydrated: false,
       role: '',  // Valor inicial para el rol
+      streamLoaded: false,
       setHydrated: (state) => set({ isHydrated: state }),
       setErrorAPI: (error) => set({ errorAPI: error }),
       setUserdata: (user) => set({ user }),
       setIframeURL: (url) => set({ iframeURL: url }),
       setRole: (role) => set({ role }),  // Implementación de la función para establecer el rol
+      setStreamLoaded: (state) => set({ streamLoaded: state }),
       focusIframe: () => {
         // Enfoca el iframe y habilita eventos
         const streamIframe = document.getElementById('streamPixelIframe') as HTMLIFrameElement;
