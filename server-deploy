@@ -1,0 +1,193 @@
+sudo tee /etc/nginx/sites-available/machupicchu.kunaverso.com > /dev/null <<EOF
+server {
+    listen 80;
+    server_name machupicchu.kunaverso.com;
+
+    access_log /var/log/nginx/machupicchu.access.log;
+    error_log /var/log/nginx/machupicchu.error.log;
+
+    location / {
+        proxy_pass http://localhost:3030;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+}
+EOF
+
+
+sudo ln -s /etc/nginx/sites-available/machupicchu.kunaverso.com /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+
+sudo apt update
+sudo apt install certbot python3-certbot-nginx -y
+
+
+sudo certbot --nginx -d machupicchu.kunaverso.com
+
+*********************
+
+ssh kunapak@217.76.57.243 -p 52122
+kunapak@217.76.57.243's password: 
+Welcome to Ubuntu 22.04.1 LTS (GNU/Linux 5.15.0-25-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+New release '24.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+  _____
+ / ___/___  _  _ _____ _   ___  ___
+| |   / _ \| \| |_   _/ \ | _ )/ _ \
+| |__| (_) | .` | | |/ _ \| _ \ (_) |
+ \____\___/|_|\_| |_/_/ \_|___/\___/
+
+Welcome!
+
+This server is hosted by Contabo. If you have any questions or need help,
+please don't hesitate to contact us at support@contabo.com.
+
+Last login: Sun Jul 13 16:45:13 2025 from 152.206.97.28
+kunapak@dev:~$ sudo tee /etc/nginx/sites-available/machupicchu.kunaverso.com > /dev/null <<EOF
+server {
+    listen 80;
+    server_name machupicchu.kunaverso.com;
+
+    access_log /var/log/nginx/machupicchu.access.log;
+    error_log /var/log/nginx/machupicchu.error.log;
+
+    location / {
+        proxy_pass http://localhost:3030;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+}
+EOF
+[sudo] password for kunapak: 
+kunapak@dev:~$ sudo ln -s /etc/nginx/sites-available/machupicchu.kunaverso.com /etc/nginx/sites-enabled/
+kunapak@dev:~$ sudo nginx -t && sudo systemctl reload nginx
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+kunapak@dev:~$ sudo certbot --nginx -d machupicchu.kunaverso.com
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Requesting a certificate for machupicchu.kunaverso.com
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/machupicchu.kunaverso.com/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/machupicchu.kunaverso.com/privkey.pem
+This certificate expires on 2025-10-11.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for machupicchu.kunaverso.com to /etc/nginx/sites-enabled/machupicchu.kunaverso.com
+Congratulations! You have successfully enabled HTTPS on https://machupicchu.kunaverso.com
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+kunapak@dev:~$ 
+
+
+**************************
+
+
+
+
+kunapak@dev:~$ cd react-unreal/
+kunapak@dev:~/react-unreal$ ls
+eslint.config.js  next.config.js  node_modules  package-lock.json   public     src                 tsconfig.app.json  tsconfig.node.json  yarn.lock
+index.html        next-env.d.ts   package.json  postcss.config.mjs  README.md  tailwind.config.js  tsconfig.json      vite.config.ts
+kunapak@dev:~/react-unreal$ 
+
+yarn install
+yarn build
+PORT=3030 pm2 start npm --name "front-react" -- start
+
+
+
+kunapak@dev:~$ cd react-unreal/
+kunapak@dev:~/react-unreal$ ls
+eslint.config.js  next.config.js  node_modules  package-lock.json   public     src                 tsconfig.app.json  tsconfig.node.json  yarn.lock
+index.html        next-env.d.ts   package.json  postcss.config.mjs  README.md  tailwind.config.js  tsconfig.json      vite.config.ts
+kunapak@dev:~/react-unreal$ PORT=3030 pm2 start npm --name "front-react" -- start
+
+>>>> In-memory PM2 is out-of-date, do:
+>>>> $ pm2 update
+In memory PM2 version: 6.0.8
+Local PM2 version: 5.4.3
+
+[PM2] Starting /home/kunapak/.nvm/versions/node/v22.4.1/bin/npm in fork_mode (1 instance)
+[PM2] Done.
+┌────┬────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name           │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ builder        │ default     │ N/A     │ fork    │ 254021   │ 21h    │ 11   │ online    │ 0%       │ 67.5mb   │ kunapak  │ disabled │
+│ 1  │ front-react    │ default     │ 0.40.1  │ fork    │ 262237   │ 0s     │ 0    │ online    │ 0%       │ 27.9mb   │ kunapak  │ disabled │
+└────┴────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2][WARN] Current process list is not synchronized with saved list. App builder-nuxt differs. Type 'pm2 save' to synchronize.
+kunapak@dev:~/react-unreal$
+
+
+kunapak@dev:~/react-unreal$ sudo tee /etc/nginx/sites-available/machupicchu.kunaverso.com > /dev/null <<'EOF'
+server {
+    listen 80;
+    server_name machupicchu.kunaverso.com;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name machupicchu.kunaverso.com;
+
+    ssl_certificate /etc/letsencrypt/live/machupicchu.kunaverso.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/machupicchu.kunaverso.com/privkey.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    location / {
+        proxy_pass http://localhost:3030;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+EOF
+
+
+sudo ln -sf /etc/nginx/sites-available/machupicchu.kunaverso.com /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+
+
+PORT=3030 yarn start
+
+***checkeo funciona sin ver la web
+
+kunapak@dev:~/react-unreal$ pm2 list
+┌────┬────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name           │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ builder        │ default     │ N/A     │ fork    │ 254021   │ 21h    │ 11   │ online    │ 0%       │ 67.5mb   │ kunapak  │ disabled │
+│ 3  │ front-react    │ default     │ 0.40.1  │ fork    │ 262986   │ 5m     │ 0    │ online    │ 0%       │ 56.0mb   │ kunapak  │ disabled │
+└────┴────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+kunapak@dev:~/react-unreal$ curl -s https://machupicchu.kunaverso.com/login | grep "<title>Login"
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Login - Personalización del avatar Kunaverso</title><meta name="next-head-count" content="3"/><link rel="icon" type="image/png" href="/logo.png"/><link rel="preload" href="/_next/static/css/b7f76b23cc882465.css" as="style"/><link rel="stylesheet" href="/_next/static/css/b7f76b23cc882465.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/_next/static/chunks/webpack-d50811591374375b.js" defer=""></script><script src="/_next/static/chunks/framework-64ad27b21261a9ce.js" defer=""></script><script src="/_next/static/chunks/main-a79cf9a6b14e8270.js" defer=""></script><script src="/_next/static/chunks/pages/_app-d917e709a7624776.js" defer=""></script><script src="/_next/static/chunks/pages/login-8fb9658c944f44c4.js" defer=""></script><script src="/_next/static/WXYqGDzJlB_uFYSylTIc9/_buildManifest.js" defer=""></script><script src="/_next/static/WXYqGDzJlB_uFYSylTIc9/_ssgManifest.js" defer=""></script></head><body><div id="__next"><div class="flex flex-col items-center justify-center min-h-screen bg-linear-65 bg-gradient-to-r from-violet-600 to-indigo-600 m-0"><div class="mb-8"><h1 class="text-3xl font-bold text-white">Inicia sesión</h1></div><div class="bg-transparent p-8 rounded-2xl  w-96 transition-all duration-300  border border-[#c1a5e84d]"><div class="mb-6 text-center"><span class="text-violet-200 text-sm">¿Aún no tienes cuenta?</span><button class="ml-2 text-yellow-300 underline hover:text-yellow-400 transition-colors duration-200" type="button">Regístrate aquí</button></div><div class="mb-6"><input type="email" id="email" placeholder="Escriba su email" class="text-white mb-1 bg-transparent border-t-transparent border-x-transparent border-b-4 border-violet-500 focus:bg-[#0000001a] px-4 py-2 mt-1 block w-full border focus:border focus:border-b-4 focus:border-[#2f0070] focus:rounded shadow-sm focus:outline-none transition-colors duration-20" required="" value=""/><label for="email" class="block text-sm font-semibold text-violet-300 mb-2">Email</label></div><div class="mb-6"><input type="password" id="password" placeholder="Escriba su contraseña" class="text-white mb-1 bg-transparent border-t-transparent border-x-transparent border-b-4 border-violet-500 focus:bg-[#0000001a] px-4 py-2 mt-1 block w-full border focus:border focus:border-b-4 focus:border-[#2f0070] focus:rounded shadow-sm focus:outline-none transition-colors duration-20" required="" value=""/><label for="password" class="block text-sm font-semibold text-violet-300 mb-2">Password</label></div><button class="w-full flex items-center justify-center py-3 px-4 rounded-full text-white font-medium transition-all duration-300 bg-gradient-to-b from-yellow-400 to-orange-500 border-2 border-violet-600 bg-blue-600 hover:bg-blue-700 active:bg-blue-800">Iniciar sesión</button><div class="flex flex-col sm:flex-row justify-between items-center mt-6"><a class="text-violet-200 text-sm hover:underline mb-2 sm:mb-0" href="/forgot-password">¿Olvidaste tu contraseña?</a></div></div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/login","query":{},"buildId":"WXYqGDzJlB_uFYSylTIc9","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
+kunapak@dev:~/react-unreal$ 
+
+
+
+
+
