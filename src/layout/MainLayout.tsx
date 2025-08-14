@@ -1,6 +1,9 @@
 import { ReactNode, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Sidebar from '@/Components/Sidebar/Sidebar';
+import ProfileDropdown from '@/Components/Profile/ProfileDropdown';
+import { useRouter } from 'next/router';
+import { useAppStore } from '@/store/useAppStore';
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -8,11 +11,28 @@ interface MainLayoutProps {
 
 // Layout principal de la app (excluye páginas de auth desde _app.tsx)
 // Sidebar flotante superpuesto en TODA la app, con botón para abrir/cerrar
-// StreamPixel se renderiza globalmente (fondo) en todas las páginas
+// StreamPixel se renderiza desde el MainLayout como fondo de toda la app (no-auth)
+// Import dinámico para evitar SSR y problemas de window undefined
 const StreamPixel = dynamic(() => import('@/Components/StreamPixel/StreamPixel'), { ssr: false });
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   const [open, setOpen] = useState(true);
+  const router = useRouter();
+  const logout = useAppStore((state) => state.logout);
+
+  const handlePersonalizeAvatar = () => {
+    console.log('Personalizar avatar');
+  };
+
+  const handleMyProfile = () => {
+    console.log('Mi perfil');
+    // Aquí podrías navegar a una página de perfil o abrir un modal
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
 
   return (
     <div className="relative min-h-screen w-full bg-gray-50 text-gray-900">
@@ -32,6 +52,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
       {/* StreamPixel como fondo global (debajo de todo excepto overlays y contenido) */}
       <StreamPixel />
+
+      {/* Botón de perfil fijo en la esquina superior derecha (estándar en toda la app) */}
+      <ProfileDropdown
+        onMyProfile={handleMyProfile}
+        onPersonalizeAvatar={handlePersonalizeAvatar}
+        onLogout={handleLogout}
+      />
 
       {/* Panel flotante por delante del contenido (incl. iframes) */}
       {open && (
