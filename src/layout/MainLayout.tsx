@@ -45,13 +45,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
       <aside
         className={`fixed left-0 top-0 h-screen z-[10040] border-r border-white/10 bg-black/60 text-white backdrop-blur-sm ${collapsed ? sidebarWidthCollapsed : sidebarWidthExpanded}`}
       >
-        <div className="flex items-center justify-between px-3 py-3 border-b border-white/10">
-          <span className={`text-sm font-semibold text-white transition-opacity ${collapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>Menú</span>
+        <div className={`flex items-center px-3 py-3 border-b border-white/10 ${collapsed ? 'justify-center' : 'justify-between'}`}>
+          <span className={`text-sm font-semibold text-white transition-all ${collapsed ? 'hidden' : 'opacity-100'}`}>Menú</span>
           <button
             type="button"
             aria-label={collapsed ? 'Expandir menú' : 'Colapsar menú'}
             onClick={() => setCollapsed((v) => !v)}
-            className="ml-auto rounded-md p-2 text-white/90 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            className="rounded-md p-2 text-white/90 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
           >
             {/* Icono de colapsar/expandir */}
             {collapsed ? (
