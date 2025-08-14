@@ -22,9 +22,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           type="button"
           aria-label={open ? 'Ocultar menú' : 'Mostrar menú'}
           onClick={() => setOpen((v) => !v)}
-          className="fixed top-4 left-4 z-[10050] rounded-full bg-white/90 hover:bg-white border border-gray-200 shadow-md px-3 py-2 text-sm font-medium text-gray-700 backdrop-blur"
+          className="fixed top-4 left-4 z-[10050] w-24 h-24 bg-black/60 rounded-lg flex items-center justify-center hover:bg-black/70 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
         >
-          {open ? 'Cerrar menú' : 'Menú'}
+          <svg className="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" d="M4 6h16" />
+            <path strokeLinecap="round" d="M4 12h16" />
+            <path strokeLinecap="round" d="M4 18h16" />
+          </svg>
         </button>
 
         {/* Panel flotante por delante del iframe */}
