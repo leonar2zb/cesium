@@ -4,7 +4,7 @@ import '../../src/index.css';
 import AuthGuard from '../Components/Auth/AuthGuard';
 import { StoreHydration } from '@/Components/Store/StoreHydration';
 import { useRouter } from 'next/router';
-import MainLayout from '@/Components/Layout/MainLayout';
+import MainLayout from '@/layout/MainLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
