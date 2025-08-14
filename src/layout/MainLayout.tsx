@@ -1,4 +1,5 @@
 import { ReactNode, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Sidebar from '@/Components/Sidebar/Sidebar';
 
 interface MainLayoutProps {
@@ -7,11 +8,14 @@ interface MainLayoutProps {
 
 // Layout principal de la app (excluye páginas de auth desde _app.tsx)
 // Sidebar flotante superpuesto en TODA la app, con botón para abrir/cerrar
+// StreamPixel se renderiza globalmente (fondo) en todas las páginas
+const StreamPixel = dynamic(() => import('@/Components/StreamPixel/StreamPixel'), { ssr: false });
+
 const MainLayout = ({ children }: MainLayoutProps) => {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 text-gray-900">
+    <div className="relative min-h-screen w-full bg-gray-50 text-gray-900">
       {/* Botón flotante para abrir/cerrar el panel */}
       <button
         type="button"
@@ -25,6 +29,9 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <path strokeLinecap="round" d="M4 18h16" />
         </svg>
       </button>
+
+      {/* StreamPixel como fondo global (debajo de todo excepto overlays y contenido) */}
+      <StreamPixel />
 
       {/* Panel flotante por delante del contenido (incl. iframes) */}
       {open && (
@@ -46,7 +53,8 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         </div>
       )}
 
-      <main className="min-h-screen">
+      {/* Contenido de las páginas por encima del StreamPixel */}
+      <main className="relative z-[100] min-h-screen">
         {children}
       </main>
     </div>
