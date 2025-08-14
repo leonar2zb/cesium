@@ -19,6 +19,8 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   const [collapsed, setCollapsed] = useState(false); // false = expandido, true = colapsado
   const router = useRouter();
   const logout = useAppStore((state) => state.logout);
+  const isGameMode = router.pathname === '/modo-juego';
+  const effectiveCollapsed = isGameMode ? true : collapsed;
 
   const handlePersonalizeAvatar = () => {
     console.log('Personalizar avatar');
@@ -43,18 +45,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
       {/* Sidebar fijo a la izquierda a lo largo de toda la app */}
       <aside
-        className={`fixed left-0 top-0 h-screen z-[10040] border-r border-white/10 bg-black/60 text-white backdrop-blur-sm ${collapsed ? sidebarWidthCollapsed : sidebarWidthExpanded}`}
+        className={`fixed left-0 top-0 h-screen z-[10040] border-r border-white/10 bg-black/60 text-white backdrop-blur-sm ${effectiveCollapsed ? sidebarWidthCollapsed : sidebarWidthExpanded}`}
       >
-        <div className={`flex items-center px-3 py-3 border-b border-white/10 ${collapsed ? 'justify-center' : 'justify-between'}`}>
-          <span className={`text-sm font-semibold text-white transition-all ${collapsed ? 'hidden' : 'opacity-100'}`}>Menú</span>
+        <div className={`flex items-center px-3 py-3 border-b border-white/10 ${effectiveCollapsed ? 'justify-center' : 'justify-between'}`}>
+          <span className={`text-sm font-semibold text-white transition-all ${effectiveCollapsed ? 'hidden' : 'opacity-100'}`}>Menú</span>
           <button
             type="button"
-            aria-label={collapsed ? 'Expandir menú' : 'Colapsar menú'}
-            onClick={() => setCollapsed((v) => !v)}
-            className="rounded-md p-2 text-white/90 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            aria-label={isGameMode ? 'Menú bloqueado en modo juego' : (effectiveCollapsed ? 'Expandir menú' : 'Colapsar menú')}
+            onClick={() => { if (!isGameMode) setCollapsed((v) => !v); }}
+            className={`rounded-md p-2 ${isGameMode ? 'text-white/50 cursor-not-allowed' : 'text-white/90 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50'}` }
           >
             {/* Icono de colapsar/expandir */}
-            {collapsed ? (
+            {effectiveCollapsed ? (
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
@@ -66,7 +68,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           </button>
         </div>
         <nav className="flex flex-col p-2">
-          <Sidebar collapsed={collapsed} />
+          <Sidebar collapsed={effectiveCollapsed} />
         </nav>
       </aside>
 
@@ -79,7 +81,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
       {/* Contenido de las páginas por encima del StreamPixel y desplazado a la derecha del sidebar */}
       <main
-        className={`relative z-[100] min-h-screen transition-[margin] duration-200 ease-out ${collapsed ? 'ml-20' : 'ml-64'} p-4 md:p-6 lg:p-8`}
+        className={`relative z-[100] min-h-screen transition-[margin] duration-200 ease-out ${effectiveCollapsed ? 'ml-20' : 'ml-64'} p-4 md:p-6 lg:p-8`}
       >
         {children}
       </main>
