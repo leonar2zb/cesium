@@ -33,7 +33,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
         {/* Panel flotante por delante del iframe */}
         {open && (
-          <div className="fixed top-16 left-4 z-[10040] w-72 max-w-[85vw] max-h-[80vh] overflow-y-auto rounded-lg border border-white/20 bg-black/60 text-white shadow-2xl backdrop-blur-sm">
+          <div className="fixed top-32 left-4 z-[10040] w-72 max-w-[85vw] max-h-[80vh] overflow-y-auto rounded-lg border border-white/20 bg-black/60 text-white shadow-2xl backdrop-blur-sm">
             <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
               <span className="text-sm font-semibold text-white">Menú</span>
               <button
