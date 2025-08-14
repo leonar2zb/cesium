@@ -2,7 +2,7 @@ import MenuItem from "./MenuItem";
 
 const Sidebar = () => {
     const routes = [{
-        icon: '/icons/dashboard.png',
+        icon: '/icons/servicios.png',
         caption: 'DASHBOARD',
         url: '/dashboard'
     },
