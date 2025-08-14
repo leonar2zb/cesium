@@ -10,13 +10,13 @@ interface MainLayoutProps {
 }
 
 // Layout principal de la app (excluye páginas de auth desde _app.tsx)
-// Sidebar flotante superpuesto en TODA la app, con botón para abrir/cerrar
+// Sidebar fijo a la izquierda ocupando todo el alto, con dos modos: expandido (icono+texto) y colapsado (solo iconos con tooltip)
 // StreamPixel se renderiza desde el MainLayout como fondo de toda la app (no-auth)
 // Import dinámico para evitar SSR y problemas de window undefined
 const StreamPixel = dynamic(() => import('@/Components/StreamPixel/StreamPixel'), { ssr: false });
 
 const MainLayout = ({ children }: MainLayoutProps) => {
-  const [open, setOpen] = useState(true);
+  const [collapsed, setCollapsed] = useState(false); // false = expandido, true = colapsado
   const router = useRouter();
   const logout = useAppStore((state) => state.logout);
 
@@ -26,7 +26,6 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   const handleMyProfile = () => {
     console.log('Mi perfil');
-    // Aquí podrías navegar a una página de perfil o abrir un modal
   };
 
   const handleLogout = () => {
@@ -34,24 +33,42 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     router.push('/login');
   };
 
+  const sidebarWidthExpanded = 'w-64';
+  const sidebarWidthCollapsed = 'w-20';
+
   return (
     <div className="relative min-h-screen w-full bg-gray-50 text-gray-900">
-      {/* Botón flotante para abrir/cerrar el panel */}
-      <button
-        type="button"
-        aria-label={open ? 'Ocultar menú' : 'Mostrar menú'}
-        onClick={() => setOpen((v) => !v)}
-        className="fixed top-4 left-4 z-[10050] w-24 h-24 bg-black/60 rounded-lg flex items-center justify-center hover:bg-black/70 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
-      >
-        <svg className="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path strokeLinecap="round" d="M4 6h16" />
-          <path strokeLinecap="round" d="M4 12h16" />
-          <path strokeLinecap="round" d="M4 18h16" />
-        </svg>
-      </button>
-
       {/* StreamPixel como fondo global (debajo de todo excepto overlays y contenido) */}
       <StreamPixel />
+
+      {/* Sidebar fijo a la izquierda a lo largo de toda la app */}
+      <aside
+        className={`fixed left-0 top-0 h-screen z-[10040] border-r border-white/10 bg-black/60 text-white backdrop-blur-sm ${collapsed ? sidebarWidthCollapsed : sidebarWidthExpanded}`}
+      >
+        <div className="flex items-center justify-between px-3 py-3 border-b border-white/10">
+          <span className={`text-sm font-semibold text-white transition-opacity ${collapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>Menú</span>
+          <button
+            type="button"
+            aria-label={collapsed ? 'Expandir menú' : 'Colapsar menú'}
+            onClick={() => setCollapsed((v) => !v)}
+            className="ml-auto rounded-md p-2 text-white/90 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+          >
+            {/* Icono de colapsar/expandir */}
+            {collapsed ? (
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            )}
+          </button>
+        </div>
+        <nav className="flex flex-col p-2">
+          <Sidebar collapsed={collapsed} />
+        </nav>
+      </aside>
 
       {/* Botón de perfil fijo en la esquina superior derecha (estándar en toda la app) */}
       <ProfileDropdown
@@ -60,28 +77,10 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         onLogout={handleLogout}
       />
 
-      {/* Panel flotante por delante del contenido (incl. iframes) */}
-      {open && (
-        <div className="fixed top-32 left-4 z-[10040] w-72 max-w-[85vw] max-h-[80vh] overflow-y-auto rounded-lg border border-white/20 bg-black/60 text-white shadow-2xl backdrop-blur-sm">
-          <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
-            <span className="text-sm font-semibold text-white">Menú</span>
-            <button
-              type="button"
-              aria-label="Cerrar menú"
-              onClick={() => setOpen(false)}
-              className="rounded px-2 py-1 text-white/80 hover:text-white hover:bg-white/10"
-            >
-              ×
-            </button>
-          </div>
-          <nav className="flex flex-col p-2">
-            <Sidebar />
-          </nav>
-        </div>
-      )}
-
-      {/* Contenido de las páginas por encima del StreamPixel */}
-      <main className="relative z-[100] min-h-screen">
+      {/* Contenido de las páginas por encima del StreamPixel y desplazado a la derecha del sidebar */}
+      <main
+        className={`relative z-[100] min-h-screen transition-[margin] duration-200 ease-out ${collapsed ? 'ml-20' : 'ml-64'} p-4 md:p-6 lg:p-8`}
+      >
         {children}
       </main>
     </div>

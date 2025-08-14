@@ -79,7 +79,11 @@ const BusIcon = () => (
   </svg>
 );
 
-const Sidebar = () => {
+type SidebarProps = {
+  collapsed?: boolean;
+};
+
+const Sidebar = ({ collapsed = false }: SidebarProps) => {
     const routes = [{
         icon: <HomeIcon />,
         caption: 'DASHBOARD',
@@ -144,6 +148,7 @@ const Sidebar = () => {
                     icon={route.icon}
                     caption={route.caption}
                     url={route.url}
+                    collapsed={collapsed}
                 />
             )
         })}
