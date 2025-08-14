@@ -68,7 +68,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
       {/* Botón principal */}
       <button
         onClick={toggleDropdown}
-        className="fixed top-4 right-4 z-50 w-24 h-24 bg-black bg-opacity-60 rounded-lg flex items-center justify-center hover:bg-opacity-70 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+        className="fixed top-4 right-4 z-[10060] w-24 h-24 bg-black bg-opacity-60 rounded-lg flex items-center justify-center hover:bg-opacity-70 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
         aria-label="Menú de perfil"
         type="button"
       >
@@ -93,7 +93,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
         <>
           {/* Desktop dropdown */}
           <div
-            className="hidden md:block fixed top-16 right-4 z-50 bg-white rounded-lg shadow-lg border border-gray-200 min-w-48 overflow-hidden"
+            className="hidden md:block fixed top-16 right-4 z-[10060] bg-white rounded-lg shadow-lg border border-gray-200 min-w-48 overflow-hidden"
           >
             <div className="py-1">
               <button
@@ -135,7 +135,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
           </div>
 
           {/* Mobile modal (pantalla completa) */}
-          <div className="md:hidden fixed inset-0 z-50 bg-white">
+          <div className="md:hidden fixed inset-0 z-[10060] bg-white">
             {/* Header con botón cerrar */}
             <div className="flex justify-between items-center p-4 border-b border-gray-200">
               <h2 className="text-lg font-semibold text-gray-900">Menú de perfil</h2>
