@@ -21,7 +21,6 @@ const Dashboard: NextPage = () => {
 
   // Modal and Slide-over
   const [showModal, setShowModal] = useState(false);
-  const [showSlide, setShowSlide] = useState(false);
 
   // Expandable map panel
   const [expandMap, setExpandMap] = useState(false);
@@ -143,7 +142,6 @@ const Dashboard: NextPage = () => {
           <div className={`${expandMap ? 'lg:col-span-12' : 'lg:col-span-4'} transition-all`}>
             <WidgetCard title="Centro de control">
               <div className="grid grid-cols-2 gap-2">
-                <button onClick={() => setShowSlide(true)} className="p-3 rounded bg-white/10 hover:bg-white/15 transition-all hover:-translate-y-0.5">Panel lateral</button>
                 <button onClick={() => setShowModal(true)} className="p-3 rounded bg-white/10 hover:bg-white/15 transition-all hover:-translate-y-0.5">Abrir modal</button>
                 <button onClick={() => setTrendTab('eng')} className="p-3 rounded bg-white/10 hover:bg-white/15">Eng</button>
                 <button onClick={() => setTrendTab('conv')} className="p-3 rounded bg-white/10 hover:bg-white/15">Conv</button>
@@ -175,27 +173,11 @@ const Dashboard: NextPage = () => {
             </div>
             <div className="mt-4 flex justify-end gap-2">
               <button onClick={() => setShowModal(false)} className="px-3 py-1 rounded bg-white/10 hover:bg-white/15">Cerrar</button>
-              <button onClick={() => setShowSlide(true)} className="px-3 py-1 rounded bg-emerald-500/20 text-emerald-200 hover:bg-emerald-500/30">Abrir panel</button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Slide-over Panel */}
-      <div className={`fixed inset-y-0 right-0 z-[10070] w-80 max-w-[90vw] transform transition-transform duration-300 ${showSlide ? 'translate-x-0' : 'translate-x-full'}`} role="dialog" aria-label="Panel lateral">
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowSlide(false)} aria-hidden></div>
-        <div className="relative h-full bg-black/70 text-white border-l border-white/10 backdrop-blur-sm p-4">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold">Panel lateral</h3>
-            <button onClick={() => setShowSlide(false)} className="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded px-2 py-0.5 text-xs" aria-label="Cerrar">×</button>
-          </div>
-          <ListCard title="Eventos recientes" items={[
-            {id:'1', text:'Usuario inició sesión'},
-            {id:'2', text:'Actualización de perfil'},
-            {id:'3', text:'Nuevo reporte generado'}
-          ]} />
-        </div>
-      </div>
     </>
   );
 };
