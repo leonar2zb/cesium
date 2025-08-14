@@ -4,6 +4,7 @@ import '../../src/index.css';
 import AuthGuard from '../Components/Auth/AuthGuard';
 import { StoreHydration } from '@/Components/Store/StoreHydration';
 import { useRouter } from 'next/router';
+import MainLayout from '@/Components/Layout/MainLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -11,6 +12,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const isForgotPassword = router.pathname === '/forgot-password';
   const isResetPassword = router.pathname === '/reset-password';
   const isRegister = router.pathname === '/register';
+
+  const isAuthPage = isLoginPage || isForgotPassword || isResetPassword || isRegister;
 
   return (
     <>
@@ -20,11 +23,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       {/* Este componente se asegura de que el estado se hidrante correctamente */}
       <StoreHydration />
-      {isLoginPage || isForgotPassword || isResetPassword || isRegister ? (
+      {isAuthPage ? (
         <Component {...pageProps} />
       ) : (
         <AuthGuard>
-          <Component {...pageProps} />
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
         </AuthGuard>
       )}
     </>

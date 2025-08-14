@@ -2,54 +2,59 @@ import MenuItem from "./MenuItem";
 
 const Sidebar = () => {
     const routes = [{
+        icon: '/icons/dashboard.png',
+        caption: 'DASHBOARD',
+        url: '/dashboard'
+    },
+    {
         icon: '/icons/tiempo_real.png',
         caption: 'TIEMPO REAL',
-        url: ''
+        url: '/tiempo-real'
     },
     {
         icon: '/icons/clima.png',
         caption: 'CLIMA',
-        url: ''
+        url: '/clima'
     },
     {
         icon: '/icons/eventos.png',
         caption: 'EVENTOS',
-        url: ''
+        url: '/eventos'
     },
     {
         icon: '/icons/seguridad.png',
         caption: 'SEGURIDAD',
-        url: ''
+        url: '/seguridad'
     },
     {
         icon: '/icons/salud.png',
         caption: 'SALUD',
-        url: ''
+        url: '/salud'
     },
     {
         icon: '/icons/turismo.png',
         caption: 'TURISMO',
-        url: ''
+        url: '/turismo'
     },
     {
         icon: '/icons/demografia.png',
         caption: 'DEMOGRAFIA',
-        url: ''
+        url: '/demografia'
     },
     {
         icon: '/icons/servicios.png',
         caption: 'SERVICIOS',
-        url: ''
+        url: '/servicios'
     },
     {
         icon: '/icons/medio_ambiente.png',
         caption: 'MEDIO AMBIENTE',
-        url: ''
+        url: '/medio-ambiente'
     },
     {
         icon: '/icons/transporte.png',
         caption: 'TRANSPORTE',
-        url: ''
+        url: '/transporte'
     }
     ]
     return (<>
