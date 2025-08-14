@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { EventCard, ListCard } from '@/Components/Widgets/Widgets';
 
 export default function EventosPage() {
   return (
@@ -6,8 +7,12 @@ export default function EventosPage() {
       <Head>
         <title>Eventos</title>
       </Head>
-      <h1 className="text-2xl font-bold mb-4">Eventos</h1>
-      <p className="text-gray-600">Página de ejemplo: eventos y actividades.</p>
+      <div className="p-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <EventCard titleEvent="Feria de Innovación" date="25 Ago, 10:00 AM" place="Centro de Convenciones" />
+          <ListCard title="Agenda" items={[{id:'1', text:'Registro'},{id:'2', text:'Conferencia apertura'},{id:'3', text:'Networking'}]} />
+        </div>
+      </div>
     </>
   );
 }

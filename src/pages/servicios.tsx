@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { ServiceStatusGrid, StatCard } from '@/Components/Widgets/Widgets';
 
 export default function ServiciosPage() {
   return (
@@ -6,8 +7,12 @@ export default function ServiciosPage() {
       <Head>
         <title>Servicios</title>
       </Head>
-      <h1 className="text-2xl font-bold mb-4">Servicios</h1>
-      <p className="text-gray-600">Página de ejemplo: servicios públicos.</p>
+      <div className="p-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <ServiceStatusGrid services={[{name:'Agua', up:true},{name:'Electricidad', up:false},{name:'Internet', up:true},{name:'Recolección', up:true}]} />
+          <StatCard label="SLA Promedio" value="98.2%" delta="-0.3%" />
+        </div>
+      </div>
     </>
   );
 }
